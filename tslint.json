@@ -1,0 +1,82 @@
+{
+  "extends": ["tslint:recommended", "tslint-plugin-prettier", "tslint-config-prettier"],
+  "rulesDirectory": [],
+  "linterOptions": {
+    "exclude": ["dist/**/*", "tools/**/*"]
+  },
+  "jsRules": false,
+  "rules": {
+    "prettier": true,
+    "callable-types": true,
+    "class-name": true,
+    "interface-name": [true, "always-prefix"],
+    "forin": false,
+    "import-blacklist": [true],
+    "no-default-export": true,
+    "interface-over-type-literal": true,
+    "label-position": true,
+    "member-access": false,
+    "member-ordering": [
+      true,
+      {
+        "order": ["static-field", "instance-field", "static-method", "instance-method"]
+      }
+    ],
+    "no-arg": true,
+    "no-bitwise": true,
+    "no-console": [true, "debug", "info", "time", "timeEnd", "trace"],
+    "no-construct": true,
+    "no-conditional-assignment": true,
+    "no-debugger": true,
+    "no-duplicate-variable": true,
+    "no-empty": false,
+    "no-empty-interface": true,
+    "no-eval": true,
+    "no-inferrable-types": [true, "ignore-params", "ignore-properties"],
+    "no-shadowed-variable": true,
+    "no-string-literal": true,
+    "no-string-throw": true,
+    "no-switch-case-fall-through": true,
+    "no-unused-expression": true,
+    "no-var-keyword": true,
+    "no-return-await": true,
+    "no-promise-as-boolean": true,
+    "no-floating-promises": true,
+    "no-require-imports": true,
+    "no-mergeable-namespace": true,
+    "object-literal-sort-keys": false,
+    "cyclomatic-complexity": [true, 20],
+    "ordered-imports": false,
+    "prefer-readonly": true,
+    "prefer-const": true,
+    "radix": true,
+    "triple-equals": [true, "allow-null-check"],
+    "unified-signatures": true,
+    "variable-name": false,
+    "max-classes-per-file": [true, 1],
+    "max-file-line-count": [true, 700],
+    "typedef": [
+      true,
+      "call-signature",
+      "parameter",
+      "member-variable-declaration",
+      "property-declaration",
+      "variable-declaration-ignore-function",
+      "member-variable-declaration"
+    ],
+    "no-any": [
+      true,
+      {
+        "ignore-rest-args": true
+      }
+    ],
+    "sort-imports": [
+      "error",
+      {
+        "ignoreCase": false,
+        "ignoreMemberSort": false,
+        "memberSyntaxSortOrder": ["none", "all", "multiple", "single"]
+      }
+    ]
+  }
+}
