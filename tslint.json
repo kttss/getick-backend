@@ -41,7 +41,7 @@
     "no-var-keyword": true,
     "no-return-await": true,
     "no-promise-as-boolean": true,
-    "no-floating-promises": true,
+    "no-floating-promises": false,
     "no-require-imports": true,
     "no-mergeable-namespace": true,
     "object-literal-sort-keys": false,
@@ -65,7 +65,7 @@
       "member-variable-declaration"
     ],
     "no-any": [
-      true,
+      false,
       {
         "ignore-rest-args": true
       }
