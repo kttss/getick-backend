@@ -36,6 +36,19 @@ export class UserService {
     return user;
   }
 
+  async findByEmail(email: string): Promise<IUser> {
+    let user: any;
+    try {
+      user = await this.userModel.findOne({ email }).exec();
+    } catch (error) {
+      throw new NotFoundException('Could not find user.');
+    }
+    if (!user) {
+      throw new NotFoundException('Could not find user.');
+    }
+    return user;
+  }
+
   async updateUser(userId: string, user: UpdateUserDto): Promise<void> {
     const currentUser = await this.find(userId);
 
