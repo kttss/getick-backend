@@ -1,9 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+
+import * as bcrypt from 'bcrypt';
+
 import { CreateUserDto } from './dtos/create-user-dto';
 import { UpdateUserDto } from './dtos/update-user-dto';
-import { User, UserDocument } from './schemas/user.schema';
+import { UserDocument } from './schemas/user.schema';
 import { IUser } from './user.interface';
 
 @Injectable()
@@ -11,12 +14,15 @@ export class UserService {
   constructor(@InjectModel('User') private readonly userModel: Model<UserDocument>) {}
 
   async create(user: CreateUserDto): Promise<IUser> {
+    const salt = await bcrypt.genSalt();
+    const passwordHash = await bcrypt.hash(user.password, salt);
+
     const newUser = new this.userModel({
       firstname: user.firstname,
       lastname: user.lastname,
       email: user.email,
       username: user.username,
-      password: user.password,
+      password: passwordHash,
       role: user.role
     });
 
