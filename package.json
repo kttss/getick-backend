@@ -27,6 +27,7 @@
     "lint:fix": "tslint -p tsconfig.json -c tslint.json --fix"
   },
   "dependencies": {
+    "@nestjs-modules/mailer": "1.6.0",
     "@nestjs/common": "^7.6.13",
     "@nestjs/config": "0.6.3",
     "@nestjs/core": "^7.6.13",
@@ -39,7 +40,9 @@
     "class-transformer": "0.4.0",
     "class-validator": "0.13.1",
     "fastify-swagger": "4.7.0",
+    "handlebars": "4.7.7",
     "mongoose": "5.11.19",
+    "nodemailer": "6.6.0",
     "passport": "0.4.1",
     "passport-jwt": "4.0.0",
     "passport-local": "1.0.0",
