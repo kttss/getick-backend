@@ -7,4 +7,5 @@ export interface IUser extends mongoose.Document {
   username: string;
   password: string;
   role: string;
+  enabled: string;
 }

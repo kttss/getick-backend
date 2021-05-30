@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -6,14 +6,20 @@ import * as bcrypt from 'bcrypt';
 
 import { CreateUserDto } from './dtos/create-user-dto';
 import { UpdateUserDto } from './dtos/update-user-dto';
-import { UserDocument } from './schemas/user.schema';
+import { User, UserDocument, UserPassportDocument } from './schemas/user.schema';
 import { IUser } from './user.interface';
+import { JwtService } from '@nestjs/jwt';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel('User') private readonly userModel: Model<UserDocument>) {}
+  constructor(
+    @InjectModel('User') private readonly userModel: Model<UserDocument>,
+    @InjectModel('UserPassport') private readonly userPassortModel: Model<UserPassportDocument>,
+    private readonly mailService: MailService
+  ) {}
 
-  async create(user: CreateUserDto): Promise<IUser> {
+  async create(user: CreateUserDto): Promise<any> {
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(user.password, salt);
 
@@ -23,10 +29,25 @@ export class UserService {
       email: user.email,
       username: user.username,
       password: passwordHash,
-      role: user.role
+      role: user.role,
+      enabled: false,
+      createdAt: new Date()
+    });
+    newUser.save();
+
+    const hour = 1000 * 60 * 60;
+    const _date = new Date();
+
+    const newUserPassport = new this.userPassortModel({
+      user_id: newUser.id,
+      token: await bcrypt.hash(String(new Date()), salt),
+      isUsed: false,
+      expirationDate: new Date(_date.getTime() + hour)
     });
 
-    return newUser.save();
+    newUserPassport.save();
+
+    return this.mailService.sendUserConfirmation(newUser, newUserPassport.token);
   }
 
   async find(id: string): Promise<IUser> {
@@ -40,6 +61,17 @@ export class UserService {
       throw new NotFoundException('Could not find user.');
     }
     return user;
+  }
+
+  async enableUser(id: string, token: string): any {
+    const item = await this.userPassortModel.findOne({ user_id: id }).exec();
+    if (!item.isUsed && item.token === token) {
+      item.isUsed = true;
+      item.save();
+      return 'enabled';
+    } else {
+      throw new ForbiddenException('token alreay used');
+    }
   }
 
   async findByEmail(email: string): Promise<IUser> {

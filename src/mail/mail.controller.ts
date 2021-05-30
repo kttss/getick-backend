@@ -10,7 +10,7 @@ export class MailController {
 
   @Get('/sendmail')
   sendEmail(): any {
-    this.mailService.sendUserConfirmation('test').then();
+    // this.mailService.sendUserConfirmation('test').then();
     return 'send';
   }
 }

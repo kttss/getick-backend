@@ -28,9 +28,15 @@ export class UserController {
     return this.userService.find(id);
   }
 
-  @Post()
-  @UseGuards(JwtAuthGuard)
+  @Get(':id/:token')
   @ApiBearerAuth()
+  enableUser(@Param('id') id: string, @Param('token') token: string): any {
+    return this.userService.enableUser(id, token);
+  }
+
+  @Post()
+  // @UseGuards(JwtAuthGuard)
+  // @ApiBearerAuth()
   createUser(@Body() user: CreateUserDto): any {
     this.userService.create(user);
     return 'Added';

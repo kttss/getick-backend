@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import * as bcrypt from 'bcrypt';
@@ -13,6 +13,7 @@ export class AuthService {
   async login(loginFom: LoginRequestDto): Promise<any> {
     const user = await this.userService.findByEmail(loginFom.email);
     const isMatch = await bcrypt.compare(loginFom.password, user.password);
+
     if (isMatch) {
       const payload = {
         username: user.username,
@@ -22,9 +23,14 @@ export class AuthService {
         role: user.role,
         id: user.id
       };
-      return {
-        token: this.jwtService.sign(payload)
-      };
+
+      if (user.enabled) {
+        return {
+          token: this.jwtService.sign(payload)
+        };
+      } else {
+        throw new ForbiddenException('not enabled');
+      }
     } else {
       throw new UnauthorizedException('password incorrect');
     }
