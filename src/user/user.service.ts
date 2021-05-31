@@ -63,7 +63,7 @@ export class UserService {
     return user;
   }
 
-  async enableUser(id: string, token: string): any {
+  async enableUser(id: string, token: string): Promise<any> {
     const item = await this.userPassortModel.findOne({ user_id: id }).exec();
     if (!item.isUsed && item.token === token) {
       item.isUsed = true;
