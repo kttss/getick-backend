@@ -31,7 +31,8 @@ export class UserService {
       password: passwordHash,
       role: user.role,
       enabled: false,
-      createdAt: new Date()
+      createdAt: new Date(),
+      lang: 'en'
     });
     newUser.save();
 
@@ -65,9 +66,14 @@ export class UserService {
 
   async enableUser(id: string, token: string): Promise<any> {
     const item = await this.userPassortModel.findOne({ user_id: id }).exec();
+    const user = await this.userModel.findById(id);
+    console.log('e', user);
     if (!item.isUsed && item.token === token) {
+      user.enabled = true;
+      user.save();
       item.isUsed = true;
       item.save();
+
       return 'enabled';
     } else {
       throw new ForbiddenException('token alreay used');

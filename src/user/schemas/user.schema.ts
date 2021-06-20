@@ -26,6 +26,9 @@ export class User extends TimestampDocument {
   @Prop({ required: true })
   role: UserRoles;
 
+  @Prop({ required: true })
+  lang: string;
+
   @Prop()
   enabled: boolean;
 

@@ -21,12 +21,14 @@ export class AuthService {
         lastname: user.lastname,
         firstname: user.firstname,
         role: user.role,
-        id: user.id
+        id: user.id,
+        lang: user.lang
       };
 
       if (user.enabled) {
         return {
-          token: this.jwtService.sign(payload)
+          token: this.jwtService.sign(payload),
+          user: {}
         };
       } else {
         throw new ForbiddenException('not enabled');
