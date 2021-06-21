@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { MailModule } from './mail/mail.module';
 
 import { ProjectModule } from './project/project.module';
+import { TicketModule } from './ticket/ticket.module';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { ProjectModule } from './project/project.module';
     UserModule,
     AuthModule,
     MailModule,
-    ProjectModule
+    ProjectModule,
+    TicketModule
   ],
   controllers: [AppController],
   providers: [AppService]
