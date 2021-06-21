@@ -17,7 +17,7 @@ export class User extends TimestampDocument {
   @Prop({ required: true })
   email: string;
 
-  @Prop({ required: true })
+  @Prop()
   username: string;
 
   @Prop({ required: true })
