@@ -10,6 +10,7 @@ import { MailModule } from './mail/mail.module';
 
 import { ProjectModule } from './project/project.module';
 import { TicketModule } from './ticket/ticket.module';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
   imports: [
@@ -21,7 +22,8 @@ import { TicketModule } from './ticket/ticket.module';
     AuthModule,
     MailModule,
     ProjectModule,
-    TicketModule
+    TicketModule,
+    UploadModule
   ],
   controllers: [AppController],
   providers: [AppService]
