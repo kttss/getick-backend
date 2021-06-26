@@ -29,7 +29,7 @@ export class UploadController {
   }
 
   @Get('read/:filename')
-  async serveAvatar(@Param('filename') filename: string, @Res() res: Response): Promise<any> {
+  async serveAvatar(@Param('filename') filename: string, @Res() res: any): Promise<any> {
     res.sendFile(filename, { root: 'ged' });
   }
 }

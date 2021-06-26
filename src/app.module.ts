@@ -11,6 +11,8 @@ import { MailModule } from './mail/mail.module';
 import { ProjectModule } from './project/project.module';
 import { TicketModule } from './ticket/ticket.module';
 import { UploadModule } from './upload/upload.module';
+import { MessagesGateway } from './gateways/messages.gateway';
+import { MessageModule } from './gateways/message.module';
 
 @Module({
   imports: [
@@ -23,7 +25,8 @@ import { UploadModule } from './upload/upload.module';
     MailModule,
     ProjectModule,
     TicketModule,
-    UploadModule
+    UploadModule,
+    MessageModule
   ],
   controllers: [AppController],
   providers: [AppService]
