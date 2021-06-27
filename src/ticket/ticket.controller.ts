@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, UseGuards } from '@nestjs/common';
 import { TicketService } from './ticket.service';
 import { CreateTicketDto } from './dto/create-ticket.dto';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @ApiTags('ticket')
 @ApiBearerAuth()
@@ -11,6 +12,7 @@ export class TicketController {
   constructor(private readonly ticketService: TicketService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   create(@Body() createTicketDto: CreateTicketDto): any {
     return this.ticketService.create(createTicketDto);
   }

@@ -13,6 +13,7 @@ import { TicketModule } from './ticket/ticket.module';
 import { UploadModule } from './upload/upload.module';
 import { MessagesGateway } from './gateways/messages.gateway';
 import { MessageModule } from './gateways/message.module';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -26,7 +27,8 @@ import { MessageModule } from './gateways/message.module';
     ProjectModule,
     TicketModule,
     UploadModule,
-    MessageModule
+    MessageModule,
+    ChatModule
   ],
   controllers: [AppController],
   providers: [AppService]
