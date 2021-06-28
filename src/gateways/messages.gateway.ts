@@ -4,6 +4,7 @@ import {
   OnGatewayInit,
   SubscribeMessage,
   WebSocketGateway,
+  WebSocketServer,
   WsResponse
 } from '@nestjs/websockets';
 
@@ -11,6 +12,9 @@ import { Socket, Server } from 'socket.io';
 
 @WebSocketGateway()
 export class MessagesGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
+  @WebSocketServer()
+  server!: Server;
+
   afterInit(server: Server): void {
     console.log('init');
   }

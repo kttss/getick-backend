@@ -18,6 +18,20 @@ export class ChatController {
     return this.chatService.create(userId, createChatDto);
   }
 
+  @Get('getMessages')
+  @UseGuards(JwtAuthGuard)
+  getAllMessageForConnectedUser(@Request() req: any, @Param('id') id: string): any {
+    const { userId } = req.user;
+    return this.chatService.getAllMessageForUser(userId, id);
+  }
+
+  @Get('readMesages')
+  @UseGuards(JwtAuthGuard)
+  readAllMessages(@Request() req: any, @Param('id') id: string): any {
+    const { userId } = req.user;
+    return this.chatService.getAllMessageForUser(userId, id);
+  }
+
   @Get()
   findAll(): any {
     return this.chatService.findAll();

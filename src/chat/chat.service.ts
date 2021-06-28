@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { MessagesGateway } from '../gateways/messages.gateway';
 import { CreateChatDto } from './dto/create-chat.dto';
 import { UpdateChatDto } from './dto/update-chat.dto';
 import { ChatDocument } from './schemas/chat.shema';
 
 @Injectable()
 export class ChatService {
-  constructor(@InjectModel('Chat') private readonly chatModel: Model<ChatDocument>) {}
+  constructor(@InjectModel('Chat') private readonly chatModel: Model<ChatDocument>, private readonly messageGateway: MessagesGateway) {}
 
   create(userId: string, createChatDto: CreateChatDto): any {
     const message = new this.chatModel({
@@ -19,7 +20,28 @@ export class ChatService {
     });
 
     message.save();
+    this.messageGateway.server.emit('message', message);
     return 'message saved';
+  }
+
+  async getAllMessageForUser(userId: string, receiver_id: string): Promise<any> {
+    const data = await this.chatModel
+      .find({
+        $or: [{ sender_id: userId }, { sender_id: receiver_id }, { receiver_id: userId }, { receiver_id }]
+      })
+      .exec();
+    data.forEach((msg) => {
+      msg.isSeen = true;
+      msg.save();
+    });
+
+    return data;
+  }
+
+  async setSeenForAllMessages(receiver_id: string, sender_id: string): Promise<any> {
+    const data = await this.chatModel.find({ sender_id, receiver_id, isSeen: false }).exec();
+
+    return data;
   }
 
   findAll(): any {
