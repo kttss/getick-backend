@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { UserRoles } from '../schemas/user.schema';
 
 export class UpdateUserDto {
   @ApiProperty()
@@ -14,11 +15,11 @@ export class UpdateUserDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsString()
-  username: string;
+  @IsEmail()
+  email: string;
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsEmail()
-  email: string;
+  @IsEnum(UserRoles)
+  role: UserRoles;
 }

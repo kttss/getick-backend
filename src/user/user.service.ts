@@ -93,12 +93,11 @@ export class UserService {
     return user;
   }
 
-  async updateUser(userId: string, user: UpdateUserDto): Promise<void> {
+  async updateUser(userId: string, user: UpdateUserDto): Promise<any> {
     const currentUser = await this.find(userId);
 
-    //  currentUser.firstname = user.firs tname;
     currentUser.lastname = user.lastname;
-    currentUser.username = user.username;
+    currentUser.firstname = user.firstname;
     currentUser.email = user.email;
 
     try {
@@ -106,6 +105,7 @@ export class UserService {
     } catch (error) {
       throw new NotFoundException(error);
     }
+    return currentUser;
   }
 
   async deleteUser(userId: string): Promise<any> {
