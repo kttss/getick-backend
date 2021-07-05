@@ -12,19 +12,28 @@ export class ProjectService {
   create(userId: string, createProjectDto: CreateProjectDto): any {
     const project = new this.projectModel({
       name: createProjectDto.name,
+      description: createProjectDto.description,
       startAt: createProjectDto.startAt,
       endAt: createProjectDto.endAt,
       image: '',
       createdAt: new Date(),
-      createdBy: userId
+      createdBy: userId,
+      collaborator: []
     });
 
     project.save();
-    return 'project added';
+    return { message: 'added' };
   }
 
-  async findAll(): Promise<any> {
-    const data = await this.projectModel.find().exec();
+  async addCollabToProject(collab: string, project: string): Promise<any> {
+    const pro = await this.projectModel.findById(project).exec();
+    pro.collaborators.push(collab);
+    pro.save();
+    return { message: 'done' };
+  }
+
+  async findAll(userId: string): Promise<any> {
+    const data = await this.projectModel.find({ createdBy: userId }).exec();
     return data;
   }
 
@@ -47,6 +56,7 @@ export class ProjectService {
     const project = await this.findOne(id);
 
     project.name = updateProjectDto.name;
+    project.description = updateProjectDto.description;
     project.startAt = updateProjectDto.startAt;
     project.endAt = updateProjectDto.endAt;
 
@@ -56,7 +66,7 @@ export class ProjectService {
       throw new NotFoundException(error);
     }
 
-    return `project updated`;
+    return { message: `project updated` };
   }
 
   async remove(id: string): Promise<any> {

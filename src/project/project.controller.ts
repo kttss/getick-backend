@@ -17,9 +17,15 @@ export class ProjectController {
     return this.projectService.create(req.user.userId, createProjectDto);
   }
 
+  @Get('invite')
+  invite(@Param('project') projectId: string, @Param('collab') collabId: string): any {
+    return this.projectService.addCollabToProject(collabId, projectId);
+  }
+
   @Get()
-  findAll(): any {
-    return this.projectService.findAll();
+  @UseGuards(JwtAuthGuard)
+  findAll(@Request() req: any): any {
+    return this.projectService.findAll(req.user.userId);
   }
 
   @Get(':id')

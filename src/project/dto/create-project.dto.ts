@@ -8,11 +8,18 @@ export class CreateProjectDto {
 
   @ApiProperty()
   @IsNotEmpty()
+  description: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
   startAt: Date;
 
   @ApiProperty()
   @IsNotEmpty()
   endAt: Date;
+
+  @ApiProperty()
+  collaborator: string[];
 
   @ApiProperty()
   image?: string;
