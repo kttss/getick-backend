@@ -4,6 +4,7 @@ import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from './../auth/jwt-auth.guard';
+import { UpdateBoardDto } from './dto/update-board.dto';
 
 @ApiTags('project')
 @ApiBearerAuth()
@@ -33,9 +34,19 @@ export class ProjectController {
     return this.projectService.findOne(id);
   }
 
+  @Get('getBoard/:id')
+  getBoard(@Param('id') id: string): any {
+    return this.projectService.getBoard(id);
+  }
+
   @Put(':id')
   update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto): any {
     return this.projectService.update(id, updateProjectDto);
+  }
+
+  @Post('updateboard/:id')
+  updateBoard(@Param('id') id: string, @Body() updateBoardDto: UpdateBoardDto): any {
+    return this.projectService.updateBoard(id, updateBoardDto);
   }
 
   @Delete(':id')

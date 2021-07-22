@@ -19,6 +19,9 @@ export class CreateProjectDto {
   endAt: Date;
 
   @ApiProperty()
+  board: string;
+
+  @ApiProperty()
   collaborator: string[];
 
   @ApiProperty()

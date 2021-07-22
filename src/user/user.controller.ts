@@ -39,7 +39,7 @@ export class UserController {
   // @ApiBearerAuth()
   createUser(@Body() user: CreateUserDto): any {
     this.userService.create(user);
-    return 'Added';
+    return { message: 'created' };
   }
 
   @Put(':id')

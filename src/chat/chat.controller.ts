@@ -33,8 +33,10 @@ export class ChatController {
   }
 
   @Get()
-  findAll(): any {
-    return this.chatService.findAll();
+  @UseGuards(JwtAuthGuard)
+  findAll(@Request() req: any): any {
+    const { userId } = req.user;
+    return this.chatService.getAllMessages(userId);
   }
 
   @Get(':id')

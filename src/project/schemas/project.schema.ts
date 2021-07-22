@@ -26,6 +26,9 @@ export class Project extends TimestampDocument {
 
   @Prop({ required: false })
   image: string;
+
+  @Prop({ required: false })
+  board: string;
 }
 
 export const projectSchema = SchemaFactory.createForClass(Project);

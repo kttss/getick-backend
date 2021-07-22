@@ -74,7 +74,7 @@ export class UserService {
       item.isUsed = true;
       item.save();
 
-      return 'enabled';
+      return { messsage: 'enabled' };
     } else {
       throw new ForbiddenException('token alreay used');
     }

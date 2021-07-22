@@ -18,6 +18,9 @@ export class Chat extends TimestampDocument {
   content: string;
 
   @Prop({ required: true })
+  createdAt: Date;
+
+  @Prop({ required: true })
   isSeen: boolean;
 }
 

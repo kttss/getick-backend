@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { MessagesGateway } from '../gateways/messages.gateway';
+import { UserDocument } from '../user/schemas/user.schema';
 import { CreateChatDto } from './dto/create-chat.dto';
 import { UpdateChatDto } from './dto/update-chat.dto';
 import { ChatDocument } from './schemas/chat.shema';
@@ -14,6 +15,7 @@ export class ChatService {
     const message = new this.chatModel({
       content: createChatDto.content,
       createdAt: new Date(),
+      updatedAt: new Date(),
       sender_id: userId,
       receiver_id: createChatDto.receiver_id,
       isSeen: false
@@ -21,7 +23,7 @@ export class ChatService {
 
     message.save();
     this.messageGateway.server.emit('message', message);
-    return 'message saved';
+    return message;
   }
 
   async getAllMessageForUser(userId: string, receiver_id: string): Promise<any> {
@@ -41,6 +43,11 @@ export class ChatService {
   async setSeenForAllMessages(receiver_id: string, sender_id: string): Promise<any> {
     const data = await this.chatModel.find({ sender_id, receiver_id, isSeen: false }).exec();
 
+    return data;
+  }
+
+  async getAllMessages(user_id: string): Promise<any> {
+    const data = await this.chatModel.find({ sender_id: user_id, receiver_id: user_id, isSeen: false }).exec();
     return data;
   }
 
