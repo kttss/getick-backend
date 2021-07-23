@@ -20,7 +20,7 @@ export class ProjectService {
       createdAt: new Date(),
       createdBy: userId,
       board: createProjectDto.board,
-      collaborator: []
+      collaborators: createProjectDto.collaborators
     });
 
     project.save();
@@ -35,8 +35,10 @@ export class ProjectService {
   }
 
   async findAll(userId: string): Promise<any> {
-    const data = await this.projectModel.find({ createdBy: userId }).exec();
-    return data;
+    const data = await this.projectModel.find().exec();
+
+    const result = data.filter((p) => p.createdBy === userId || p.collaborators.includes(userId));
+    return result;
   }
 
   async findOne(id: string): Promise<any> {
@@ -75,6 +77,9 @@ export class ProjectService {
     project.description = updateProjectDto.description;
     project.startAt = updateProjectDto.startAt;
     project.endAt = updateProjectDto.endAt;
+    project.collaborators = updateProjectDto.collaborators;
+
+    console.log(project);
 
     try {
       project.save();

@@ -10,6 +10,7 @@ import { User, UserDocument, UserPassportDocument } from './schemas/user.schema'
 import { IUser } from './user.interface';
 import { JwtService } from '@nestjs/jwt';
 import { MailService } from '../mail/mail.service';
+import { AddPhotoDto } from './dtos/add-photo-dto';
 
 @Injectable()
 export class UserService {
@@ -32,6 +33,7 @@ export class UserService {
       role: user.role,
       enabled: false,
       createdAt: new Date(),
+      photo: '',
       lang: 'en'
     });
     newUser.save();
@@ -108,6 +110,17 @@ export class UserService {
     return currentUser;
   }
 
+  async addPhoto(userId: string, data: AddPhotoDto): Promise<any> {
+    const currentUser = await this.userModel.findById(userId).exec();
+    currentUser.photo = data.photo;
+
+    try {
+      currentUser.save();
+    } catch (error) {
+      throw new NotFoundException(error);
+    }
+  }
+
   async deleteUser(userId: string): Promise<any> {
     const result = await this.userModel.deleteOne({ _id: userId }).exec();
     if (result.n === 0) {
@@ -122,7 +135,8 @@ export class UserService {
       firstname: user.firstname,
       lastname: user.lastname,
       username: user.username,
-      email: user.email
+      email: user.email,
+      photo: user.photo
     }));
     return data;
   }

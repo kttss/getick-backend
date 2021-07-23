@@ -24,8 +24,8 @@ export class UploadController {
       })
     })
   )
-  uploadFile(@UploadedFile() file: Express.Multer.File): string {
-    return file.filename;
+  uploadFile(@UploadedFile() file: Express.Multer.File): any {
+    return { file: file.filename };
   }
 
   @Get('read/:filename')

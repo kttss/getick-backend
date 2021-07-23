@@ -3,6 +3,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
 
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { AddPhotoDto } from './dtos/add-photo-dto';
 import { CreateUserDto } from './dtos/create-user-dto';
 import { UpdateUserDto } from './dtos/update-user-dto';
 import { UserService } from './user.service';
@@ -56,5 +57,13 @@ export class UserController {
   deleteUser(@Param('id') id: string): any {
     this.userService.deleteUser(id);
     return 'Deleted';
+  }
+
+  @Post('photo/:id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  addPhoto(@Param('id') id: string, @Body() data: AddPhotoDto): any {
+    this.userService.addPhoto(id, data);
+    return { messsage: 'updated' };
   }
 }

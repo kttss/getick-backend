@@ -29,6 +29,9 @@ export class User extends TimestampDocument {
   @Prop({ required: true })
   lang: string;
 
+  @Prop({ required: false })
+  photo: string;
+
   @Prop()
   enabled: boolean;
 

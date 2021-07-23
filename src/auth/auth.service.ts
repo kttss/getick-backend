@@ -22,7 +22,8 @@ export class AuthService {
         firstname: user.firstname,
         role: user.role,
         id: user.id,
-        lang: user.lang
+        lang: user.lang,
+        photo: user.photo
       };
 
       if (user.enabled) {

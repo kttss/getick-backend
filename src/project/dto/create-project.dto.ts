@@ -22,7 +22,7 @@ export class CreateProjectDto {
   board: string;
 
   @ApiProperty()
-  collaborator: string[];
+  collaborators: string[];
 
   @ApiProperty()
   image?: string;

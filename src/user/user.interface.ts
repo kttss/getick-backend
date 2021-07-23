@@ -9,4 +9,5 @@ export interface IUser extends mongoose.Document {
   role: string;
   enabled: string;
   lang: string;
+  photo: string;
 }
