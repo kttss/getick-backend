@@ -32,10 +32,6 @@ export class ChatService {
         $or: [{ sender_id: userId }, { sender_id: receiver_id }, { receiver_id: userId }, { receiver_id }]
       })
       .exec();
-    data.forEach((msg) => {
-      msg.isSeen = true;
-      msg.save();
-    });
 
     return data;
   }
@@ -43,6 +39,11 @@ export class ChatService {
   async setSeenForAllMessages(receiver_id: string, sender_id: string): Promise<any> {
     const data = await this.chatModel.find({ sender_id, receiver_id, isSeen: false }).exec();
 
+    data.forEach((msg) => {
+      console.log(msg);
+      msg.isSeen = true;
+      msg.save();
+    });
     return data;
   }
 

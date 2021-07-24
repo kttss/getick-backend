@@ -25,11 +25,11 @@ export class ChatController {
     return this.chatService.getAllMessageForUser(userId, id);
   }
 
-  @Get('readMesages')
+  @Get('readMesages/:id')
   @UseGuards(JwtAuthGuard)
   readAllMessages(@Request() req: any, @Param('id') id: string): any {
     const { userId } = req.user;
-    return this.chatService.getAllMessageForUser(userId, id);
+    return this.chatService.setSeenForAllMessages(userId, id);
   }
 
   @Get()

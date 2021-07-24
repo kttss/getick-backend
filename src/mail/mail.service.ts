@@ -7,7 +7,7 @@ export class MailService {
 
   async sendUserConfirmation(user: any, token: string): Promise<void> {
     await this.mailerService.sendMail({
-      to: 'kattouss.issam@gmail.com', // user.email,
+      to: user.email,
       subject: 'Welcome to Nice App! Confirm your Email',
       template: './confirmation',
       context: {
